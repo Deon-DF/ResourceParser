@@ -9,6 +9,7 @@ public class UI : MonoBehaviour {
 
 	public InputField inputField;
 	public Dropdown dropdown;
+	public InputField output_text;
 
 	public void redrawDropdownResourceMenu (List<Resource> resources) {
 

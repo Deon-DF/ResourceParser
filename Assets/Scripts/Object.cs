@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class Task  {
 
-	public string resourcename = "PH_name";
+	public string resourcename = "PH_Rname";
+	public string taskname = "PH_Tname";
 	public string starttime = "PH_starttime";
 	public string endtime = "PH_endtime";
 

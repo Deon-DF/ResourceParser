@@ -9,31 +9,53 @@ public class Main : MonoBehaviour {
 	
 	public static Main id;
 
-	public bool LogFileContents = false;
 
 	string logfolder = "";
 	string logpath = "";
 	StreamReader file;
 
-	List<string> log = new List<string>();
+	List<string> tasklog = new List<string>();
+	List<string> namelog = new List<string>();
+
 	List<Task> tasklist = new List<Task>();
 	List<Resource> resourcelist = new List<Resource>();
 
-	public void LoadLogFromPath () {
+	public void LoadLogFromPath ()
+	{
 
 		logfolder = UI.id.inputField.text;
-		Debug.Log ("Log path selected: " + logfolder);
+
+		if (!(logfolder.EndsWith ("\\"))) {
+			Debug.Log ("The log folder does not end with " + "\\");
+			logfolder += @"\";
+		}
+
+		Debug.Log ("Log folder selected: " + logfolder);
 		logpath = logfolder + "svc.veeambackup.log";
-		Log.readFromTextFile (logpath, log, LogFileContents);
-		//Debug.Log (file.ReadToEnd());
+		Log.readFromTextFile (logpath, tasklog, namelog);
 
-
-		Parser.parseLogForTasksStart (log, tasklist, resourcelist);
+		Parser.parseLogForTasksStart (tasklog, tasklist, resourcelist);
 
 		UI.id.redrawDropdownResourceMenu (resourcelist);
+		Parser.nameAllTasks(namelog, tasklist);
+		Debug.Log("Done!");
 
-		Parser.findAllTasksByResourceID ("9ecacd23-b7cc-4a48-a468-f9ee65fd10d7", tasklist);
+	}
 
+	public void listTasksForResourceName ()
+	{
+		string id = "";
+		string name = UI.id.dropdown.options [UI.id.dropdown.value].text;
+
+		Debug.Log ("Listing all tasks for resource: " + name);
+		foreach (Resource resource in resourcelist) {
+			if (name == resource.name) {
+				id = resource.ID;
+			}
+		}
+		Debug.LogWarning("Resource name: " + name + ", resource id: " + id);
+
+		Parser.findAllTasksByResourceID (id, tasklist);
 	}
 
 	public void Awake () {
