@@ -59,3 +59,4 @@ D:\Work\Github\ResourceParser\Temp\bin\Debug\UnityEngine.VR.xml
 D:\Work\Github\ResourceParser\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 D:\Work\Github\ResourceParser\obj\Debug\Assembly-CSharp.dll
 D:\Work\Github\ResourceParser\obj\Debug\Assembly-CSharp.pdb
+C:\Users\dchuraev\Documents\GitHub\ResourceParser\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache

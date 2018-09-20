@@ -18,7 +18,7 @@ public class Main : MonoBehaviour {
 	List<string> namelog = new List<string>();
 
 	List<Task> tasklist = new List<Task>();
-	List<Resource> resourcelist = new List<Resource>();
+	List<Proxy> proxylist = new List<Proxy>();
 
 	public void LoadLogFromPath ()
 	{
@@ -34,14 +34,14 @@ public class Main : MonoBehaviour {
 		logpath = logfolder + "svc.veeambackup.log";
 		Log.readFromTextFile (logpath, tasklog, namelog);
 
-		Parser.parseLogForTasksStart (tasklog, tasklist, resourcelist);
+		Parser.parseResourceRequests (tasklog, tasklist, proxylist);
 
-		UI.id.redrawDropdownResourceMenu (resourcelist);
-		Parser.nameAllTasks(namelog, tasklist);
+		//UI.id.redrawDropdownResourceMenu (resourcelist);
+		//Parser.nameAllTasks(namelog, tasklist);
 		Debug.Log("Done!");
 
 	}
-
+	/*
 	public void listTasksForResourceName ()
 	{
 		string id = "";
@@ -50,13 +50,13 @@ public class Main : MonoBehaviour {
 		Debug.Log ("Listing all tasks for resource: " + name);
 		foreach (Resource resource in resourcelist) {
 			if (name == resource.name) {
-				id = resource.ID;
+				id = resource.id;
 			}
 		}
 		Debug.LogWarning("Resource name: " + name + ", resource id: " + id);
 
 		Parser.findAllTasksByResourceID (id, tasklist);
-	}
+	}*/
 
 	public void Awake () {
 		if (id == null) {

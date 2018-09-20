@@ -2,19 +2,40 @@
 using System.Collections.Generic;
 
 public class Task  {
-
-	public string resourcename = "PH_Rname";
+	
 	public string taskname = "PH_Tname";
-	public string starttime = "PH_starttime";
-	public string endtime = "PH_endtime";
+	public string id = "PH_TID";
 
-	public string resource_id = "PH_RIDit"; // placeholder Resource ID in task
-	public string task_id = "PH_TID";
+	public List<Proxy> proxies;
 
+	public string comment = "Empty comment";
+
+	public static void addTask(string in_id, List<Task> in_tasks, List<Proxy> in_proxies) {
+		Task newtask = new Task ();
+		newtask.id = in_id;
+		newtask.comment = "";
+		newtask.proxies = in_proxies;
+		in_tasks.Add (newtask);
+	}
 }
 
 
 public class Resource {
 	public string name = "PH_Rname";
-	public string ID = "PH_RID";
+	public string id = "PH_RID";
+	public string usage_start_time = "00:00:00";
+	public string usage_end_time = "00:00:00";
+}
+
+public class Proxy {
+	public string name = "PH_Rname";
+	public string id = "PH_RID";
+	public string usage_start_time = "00:00:00";
+	public string usage_end_time = "00:00:00";
+
+	public Proxy (string in_name, string in_id) {
+		id = in_id;
+		name = in_name;
+	}
+
 }

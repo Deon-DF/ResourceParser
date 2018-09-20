@@ -4,9 +4,13 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+/* A variant for Capturing resource/releasing resource/mark task as response
+
 namespace LogReader {
 
 	public class Log {
+
+
 
 		public static void readFromTextFile(string file_path, List<string> tasklog, List<string> namelog)
 		{
@@ -125,3 +129,4 @@ namespace LogReader {
 
 	}
 }
+*/
