@@ -8,6 +8,7 @@ using LogReader;
 public class Main : MonoBehaviour {
 	
 	public static Main id;
+	public int numproxies;
 
 
 	string logfolder = "";
@@ -17,8 +18,9 @@ public class Main : MonoBehaviour {
 	List<string> tasklog = new List<string>();
 	List<string> namelog = new List<string>();
 
-	List<Task> tasklist = new List<Task>();
-	List<Proxy> proxylist = new List<Proxy>();
+	public List<Task> tasklist = new List<Task>();
+	public List<ProxyUsage> proxyUsageList = new List<ProxyUsage>();
+	public List<Proxy> proxyList = new List<Proxy> ();
 
 	public void LoadLogFromPath ()
 	{
@@ -34,29 +36,47 @@ public class Main : MonoBehaviour {
 		logpath = logfolder + "svc.veeambackup.log";
 		Log.readFromTextFile (logpath, tasklog, namelog);
 
-		Parser.parseResourceRequests (tasklog, tasklist, proxylist);
+		Parser.parseResourceRequests (tasklog, tasklist, proxyUsageList);
 
-		//UI.id.redrawDropdownResourceMenu (resourcelist);
-		//Parser.nameAllTasks(namelog, tasklist);
+		findProxies ();
+		UI.id.redrawDropdownResourceMenu (proxyList);
 		Debug.Log("Done!");
 
-	}
-	/*
-	public void listTasksForResourceName ()
-	{
-		string id = "";
-		string name = UI.id.dropdown.options [UI.id.dropdown.value].text;
+		int num = 0;
 
-		Debug.Log ("Listing all tasks for resource: " + name);
-		foreach (Resource resource in resourcelist) {
-			if (name == resource.name) {
-				id = resource.id;
+		foreach (Task task in tasklist) {
+			foreach (ProxyUsage proxyusage in task.proxyusagelist) {
+				num++;
 			}
 		}
-		Debug.LogWarning("Resource name: " + name + ", resource id: " + id);
+		Debug.Log ("Number of proxy registartions for usage: " + num.ToString());
 
-		Parser.findAllTasksByResourceID (id, tasklist);
-	}*/
+	}
+
+	public void findProxies () {
+
+		foreach (Task task in tasklist) {
+			foreach (ProxyUsage proxyUsage in task.proxyusagelist) {
+				bool alreadyExists = false;
+				foreach (Proxy proxy in proxyList) {
+					if (proxy.id == proxyUsage.id) {
+						alreadyExists = true;
+					}
+				}
+				if (!alreadyExists) {
+					proxyList.Add (new Proxy (proxyUsage.id, proxyUsage.name));
+				}
+				//Debug.LogWarning ("Adding a new proxy to the proxy list from proxy usage list");
+			}
+		}
+		string foundProxies = "";
+
+		foreach (Proxy proxy in proxyList) {
+			foundProxies += "[" + proxy.name + ":" + proxy.id + "]";
+		}
+
+		Debug.Log ("Proxies found: " + foundProxies);
+	}
 
 	public void Awake () {
 		if (id == null) {
